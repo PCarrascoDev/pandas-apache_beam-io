@@ -13,7 +13,9 @@ import apache_beam as beam
 from apache_beam.metrics import Metrics as metrics
 from apache_beam.io import iobase, range_trackers
 
-
+"""
+PandasSource will select bundles of data from a dataframe, to read it's rows in parallel
+"""
 
 class PandaSource(iobase.BoundedSource):
     def __init__(self, dataframe):
@@ -52,4 +54,11 @@ class PandaSource(iobase.BoundedSource):
                 
             self.records_read.inc()
             yield self._dataframe.iloc[i]
+
+#Usage example
+"""with beam.Pipeline(options=PipelineOptions()) as p:
+    rows = (
+        p | 
+        beam.io.Read(PandaSource(dataframe))
+    )"""
 
